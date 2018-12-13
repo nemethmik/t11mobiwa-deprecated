@@ -6,9 +6,12 @@ For [TypeScript](https://www.typescriptlang.org/samples/index.html) integration 
 
 Here is a list of guidelines to start with React/TypeScript:
 - [Microsoft TypeScript React Starter with create-react-app my-app --scripts-version=react-scripts-ts](https://github.com/Microsoft/TypeScript-React-Starter)
-- [Best Practices for Using TypeScript with React](https://medium.freecodecamp.org/effective-use-of-typescript-with-react-3a1389b6072a)
+- [Best Practices for Using TypeScript with React by Christopher Diggins (Clemex)](https://medium.freecodecamp.org/effective-use-of-typescript-with-react-3a1389b6072a) - This was a migration project from JavaScript, so some of their recommendations may not be applicable for a Design-1st TypeScript project. They have published a template project on GitHub, too; see below.
+- [A Template for TypeScript Projects using React and Redux by by Christopher Diggins (Clemex)](https://github.com/Clemex/typescript-react-template) Unfortunately, this template project doesn't compile, so I had no chance to experiment with it. The issue (including me) has been reported on GitHub by multiple users. 
+- [React & Redux in TypeScript - Static Typing Guide by Piotr Witek](https://github.com/piotrwitek/react-redux-typescript-guide) This is quite actively maintained project
+- [React Higher-Order Components in TypeScript by James Ravenscroft](https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb)
 - [How to improve the build speed in React-Typescript, when using Material UI](https://dev.to/janpauldahlke/how-to-improve-material-ui-speed-in-react-typescript-1199)
-- [Material UI Admin (anything/anything)](https://material-ui-admin.herokuapp.com/account/login?redirect=%2F) [A boilerplate for React using Typescript, Material UI and Redux, React Router](https://github.com/goemen/react-material-ui-typescript)
+- [Material UI Admin (anything/anything)](https://material-ui-admin.herokuapp.com/account/login?redirect=%2F) The GitHub project is [A boilerplate for React using Typescript, Material UI and Redux, React Router](https://github.com/goemen/react-material-ui-typescript); it compiles and runs fine on my system, too. However, after npm update, it stops compiling. 
 - [Material UI Guide for TypeScript](https://material-ui.com/guides/typescript/)
 - [Material UI Type Definitions on NPM](https://www.npmjs.com/package/@types/material-ui)  
 - [Getting Started With React, TypeScript MobX, and Webpack 4](https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030) MobX is said to be written in TypeScript.
@@ -68,3 +71,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 ```
 I have completed the entire React/TypeScript getting started tutorial, and I am really impressed. I'd never go back to Flow and especially not to bare-bones JavaScript.
+
+## Adding Material UI
+We have two starter/template projects on GitHUb to use as samples. I'd simply add Material UI as a regular package along with TypeScript type definitions, and then simply copy pasting blocks from these templates, I'll elaborate a working Material UI version. 
