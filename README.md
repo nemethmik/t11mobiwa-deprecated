@@ -42,12 +42,18 @@ To create a production build, use npm run build.
 ### TSLint and Hello Components
 I created a new branch for experimenting with TypeScript following the instructions [TypeScript React Starter](https://github.com/Microsoft/TypeScript-React-Starter).
 After I modified some of the files, I received a couple of error messages from TSLint
-- [interface name must start with a capitalized I](https://palantir.github.io/tslint/rules/interface-name)
-- [comment must start with a space](https://palantir.github.io/tslint/rules/comment-format)
-- [The class method 'render' must be marked either 'private', 'public', or 'protected'](https://palantir.github.io/tslint/rules/member-access/)
-- [A maximum of 1 class per file is allowed](https://palantir.github.io/tslint/rules/max-classes-per-file/)
-- [Declaration of public instance method not allowed after declaration of private instance method. Instead, this should come after constructors](https://palantir.github.io/tslint/rules/member-ordering/)
-- [Import sources within a group must be alphabetized](https://palantir.github.io/tslint/rules/ordered-imports/)
+- [interface-name:interface name must start with a capitalized I](https://palantir.github.io/tslint/rules/interface-name)
+- [comment-format:comment must start with a space](https://palantir.github.io/tslint/rules/comment-format)
+- [member-access:The class method 'render' must be marked either 'private', 'public', or 'protected'](https://palantir.github.io/tslint/rules/member-access/)
+- [max-classes-per-file:A maximum of 1 class per file is allowed](https://palantir.github.io/tslint/rules/max-classes-per-file/)
+- [ordered-imports:Import sources within a group must be alphabetized](https://palantir.github.io/tslint/rules/ordered-imports/)
+- [member-ordering:Declaration of public instance method not allowed after declaration of private instance method](https://palantir.github.io/tslint/rules/member-ordering/)
+- [object-literal-sort-keys:The key 'input' is not sorted alphabetically](https://palantir.github.io/tslint/rules/object-literal-sort-keys/)
+- [jsx-boolean-value:Value must be set for boolean attributes](https://www.npmjs.com/package/eslint-plugin-react)
+- [noUnusedLocals (in tsconfig):'something' is declared but its value is never read.](https://github.com/Microsoft/TypeScript/issues/12913) VERY IMPORTANT to kill **npm start** to enforce it to reread tsconfig. The option no-unused-variable is deprecated and has no effect any more.
+- [interface-over-type-literal:Use an interface instead of a type literal](https://palantir.github.io/tslint/rules/interface-over-type-literal/) I think Type Script [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html) are powerful enough and this rure is pretty pointless. 
+-[jsx-no-lambda:Lambdas are forbidden in JSX attributes due to their rendering performance impact](https://github.com/wmonk/create-react-app-typescript/issues/370)
+-[no-console:Calls to 'console.log' are not allowed](https://palantir.github.io/tslint/rules/no-console/)
 
 Instead of disabling these globally, I have disabled some of them in the header part of the file:
 /* tslint:disable:max-classes-per-file comment-format */
@@ -74,3 +80,100 @@ I have completed the entire React/TypeScript getting started tutorial, and I am 
 
 ## Adding Material UI
 We have two starter/template projects on GitHUb to use as samples. I'd simply add Material UI as a regular package along with TypeScript type definitions, and then simply copy pasting blocks from these templates, I'll elaborate a working Material UI version. 
+### Following Instructions on [Material UI](https://material-ui.com/getting-started/installation/)
+- Add ```<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">``` and ```<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">``` to public/index.html
+- **npm install @material-ui/core @material-ui/icons prop-types @types/prop-types** Prop Types was used in a number of Material UI examples. 
+
+### Prop Types Definitions Must Be Compatible with TypeScript Definitions for Properties
+I was fighting about two hours to get rid of the compiler error. 
+```
+C:/Users/nemet/tiva11/t11mobiwa/src/ui/AppBar.tsx
+(224,55): Argument of type 'typeof PrimarySearchAppBarComponent' is not assignable to parameter of type 'ComponentType<ConsistentWith<IPrimarySearchAppBarComponentProps, { classes: Record<"search" | "title" | "root" | "grow" | "menuButton" | "searchIcon" | "inputRoot" | "inputInput" | "sectionDesktop" | "sectionMobile", string>; innerRef?: ((instance: any) => void) | ... 2 more
+... | undefined; }>>'.
+  Type 'typeof PrimarySearchAppBarComponent' is not assignable to type 'ComponentClass<ConsistentWith<IPrimarySearchAppBarComponentProps, { classes: Record<"search" | "title" | "root" | "grow" | "menuButton" | "searchIcon" | "inputRoot" | "inputInput" |
+"sectionDesktop" | "sectionMobile", string>; innerRef?: ((instance: any) => void) | ... 2 more ... | undefined; }>, any>'.
+    Types of property 'propTypes' are incompatible.
+      Type '{ classes: Validator<object>; title: Requireable<string>; }' is not assignable to type 'WeakValidationMap<ConsistentWith<IPrimarySearchAppBarComponentProps, { classes: Record<"search" | "title" | "root" | "grow" | "menuButton" | "searchIcon"
+| "inputRoot" | "inputInput" | "sectionDesktop" | "sectionMobile", string>; innerRef?: ((instance: any) => void) | ... 2 more ... | undefined; }>>'.
+        Types of property 'title' are incompatible.
+          Type 'Requireable<string>' is not assignable to type 'Validator<string>'.
+            Types of property '[nominalTypeHack]' are incompatible.
+              Type 'string | null | undefined' is not assignable to type 'string | undefined'.
+                Type 'null' is not assignable to type 'string | undefined'.
+```
+When I commented out the propType definitions, compilation was OK.
+It was my mistake, the Prop Types definitions should match. In this example the title is defined mandatory in the TypeScript definition, but optional in Prop Types definition: 
+```
+type PrimarySearchAppBarComponentProps = {
+  classes?:any,
+  title:string
+}
+class PrimarySearchAppBarComponent extends React.Component<PrimarySearchAppBarComponentProps> {
+  public static propTypes = {
+    classes: PropTypes.object.isRequired,
+    title:PropTypes.string,
+  }
+  ...
+```
+If you add isRequired to the Prop Types definition for title the compilation error goes away. Or, make the title optional in the TypeScript definition. It is allowed however, that you have optional type definitions in TypeScript, but required in Prop Types.
+The option **@ts-ignore** can be used to prevent error checking for the next line.
+
+### Adding Primary Search App Bar
+From the Materual UI [AppBar demo page](https://material-ui.com/demos/app-bar/) I have added PrimarySearchAppBar example. I've learned that styles are used in nearly every example. In this example styles were required for the search field, but not for the others. I definitively don't really like this approach, I'd prefer easy to use and customizable UI component library. CSS/JSS is anything but easy to use, especiually at this level. I'd prefer a ready-made set of components. Vuetify was a very nice example, it required no CSS at all, still its components worked great out of the box.
+The Material Components (MDC) for React library was terribly complex to use; it had near zero documentation, no samples, and it was meant to be used with SASS.
+
+On the other hand, after experimenting with the styles, it's really not that hard, if you have a working example to tweak and adjust. CSS is the engine of styling, so it's quite reasonable to include it in an easy to adjustable way, and this JSS style is really powerful, no need for SASS.
+
+The setState React function can be called with a callback function. This is necessary only when after setting the state we want the updated state values, since setState is an async call. See [When to use React setState callback](https://stackoverflow.com/questions/42038590/when-to-use-react-setstate-callback)
+
+### Clemex Single Page Layout Sample
+After reading the [Best practices for using Typescript with React](https://medium.freecodecamp.org/effective-use-of-typescript-with-react-3a1389b6072a) I've checked out the accompanying starter project [typescript-react-template](https://github.com/clemex/typescript-react-template), which didn't compile, but out of curiosity, I've copied the seemed-to-be-interesting UI parts into a SimplePageLayout.tsx
+It was really a waste of time, but I was happy that I was able to cut out the UI parts from the overcomplicated sample. I think these guys used TypeScript totally wrong, it just overcomplicated their life, it gave no help. TypeScript is a lot more complex type system than a regular typed programming language; it is as complex as C++ templates were. 
+Here are a couple of interesting solutions I've learned from this exercise:
+- Using some basic theming; the app component had a field **theme** of Theme in the state, and Material UI automatically applied that theme.
+- Using Paper gave a nice partitioning effect to the screen, like a (grouping) panel/canvas.
+- SimplePageLayout received three ReactNode properties: sidebar, header, main, and it composed the screen from these elements. It looks nifty, but, I am not sure, if it's any more flexible than simply building each screen from standard components, like: &lt;App>&lt;ActionButtons>&lt;ProcessBar>&lt;Your Content Comes Here>
+
+### Using Material UI Type Definitions for Styles
+The other major thing to learn the quite nifty/tricky type definitions for the HOC withStyle that injects a classes property into the props of the wrapped class. In the exanple beow CounterDisplayStyleKeys is a list of the string keys in the **classes** field actually injected by the HOC withStyle. The generic type **StyleRules&lt;CounterDisplayStyleKeys>** from @material-ui/core/styles guarantees, that the names in the counterDisplaystyles matches the field names defined in CounterDisplayStyleKeys. CounterDisplayStyleShape is for the (optional) run-time type checking via Prop-Types. Actually, it's totally reduntant to add Prop-Types next to TypeScript, so this is just for experimenting. TCounterDisplayProps is the props type definition which is and-ed together with **WithStyles** from @material-ui/core as **TCounterDisplayProps & WithStyles&lt;CounterDisplayStyleKeys>** to get the full definition of the props fields. **CounterDisplayWithStyles** is the component actually embedded in parent components.
+```
+type CounterDisplayStyleKeys = "root" | "anotherStyle"
+export const counterDisplaystyles: StyleRules<CounterDisplayStyleKeys> = {
+  root: {backgroundColor: 'lightGray',fontWeight: 'bold',padding: 5},
+  anotherStyle: {padding: 5}
+}
+const CounterDisplayStyleShape = {
+  root: PropTypes.string.isRequired,
+  anotherStyle: PropTypes.string.isRequired,
+}
+export type TCounterDisplayProps = {
+  value: number;
+  label: string;
+}
+export class CounterDisplay extends React.PureComponent<TCounterDisplayProps & WithStyles<CounterDisplayStyleKeys>> {
+  public static propTypes = {
+    classes: PropTypes.shape(CounterDisplayStyleShape).isRequired,
+    label:PropTypes.string.isRequired,
+    value:PropTypes.number.isRequired,
+  }
+  public render(): React.ReactNode {
+     return (
+        <Typography className={this.props.classes.root} variant="h6">
+          The current counter is:{this.props.label} = {this.props.value}
+        </Typography>
+    )
+  }
+}
+export const CounterDisplayWithStyles = withStyles(counterDisplaystyles)(CounterDisplay);
+export class Counter extends React.PureComponent {
+  public render() {
+    return (
+       <Paper elevation={4}>
+        <div>
+          <CounterDisplayWithStyles value={11} label="Label XXX"/>
+
+```
+I think this is a total overkill: first, we don't need PropTypes, along with TypeScript. It's quiterare when we really need withStyles, which would make full typing of props complex.
+
+### Traversy React & Material UI Project Using The PixaBay API
+My Pixabay API key is 126338-8e2f836ed7b71bbd3fd183c37 
