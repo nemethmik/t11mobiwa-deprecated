@@ -176,4 +176,58 @@ export class Counter extends React.PureComponent {
 I think this is a total overkill: first, we don't need PropTypes, along with TypeScript. It's quiterare when we really need withStyles, which would make full typing of props complex.
 
 ### Traversy React & Material UI Project Using The PixaBay API
-My Pixabay API key is 126338-8e2f836ed7b71bbd3fd183c37 
+Since Traversy in his [React & Material UI Project Using The PixaBay API](https://www.youtube.com/watch?v=dzOrUmK4Qyw) used the old version of Material UI, see [Migration from v0.x](https://material-ui.com/guides/migration-v0x/#migration-from-v0-x), I was about to give, but eventually I went on and I remade his sample, which is not bad, actually. His architecture is a total mess, he doesn't even understand what is the difference between a static constant, a prop or a state, what he did was a total mess, but the idea was really great, and it was challenging to remake his mess into a proper application.
+I've registered at Pixabay and I received my [API key](https://pixabay.com/api/docs/). The API is free but they want their [logo](https://pixabay.com/static/img/public/leaderboard_b.png) to get included. Traversy simply ignored this wish of the Pixabay people.
+
+I've implemented the entire solution in a single file: PixabayImageFinder.tsx. 
+The AppBar default position is fixed, which is totally wrong. The position should be static or relative, if you want to let the app bar scroll out when the user scrolls down. Or, **sticky** to get the usual non-scrolling app-bar feature.
+With Toolbar style={{**minHeight:40,maxHeight:40**}} I was able to make the tool-bar narrower.
+The [deprecated typography variants](https://material-ui.com/style/typography/#deprecated-variants) shouldn't be used, otherwise we get browser console warnings.
+Traversy should have read the official [Thinking in React](https://reactjs.org/docs/thinking-in-react.html), which gives an example that has exactly the same concepts as the Pixabay Image Finder sample; so. I have rearchitected the application accordingly.
+The application UI has a structure:
+- Pixabay Finder (the application responsible for the application state)
+  - Search Bar section (these should propagate the state change up to the application)
+    - Search text field
+    - Number of imeges to query selection box
+  - List of Images
+    - An image tile in the list
+    - A modal dialog to show the details of the image full screen 
+In the Thinking in React sample, the parent/container component (Filterable Product Table) passes callback functions (handleFilterTextChange, handleInStockChange) to the Search Bar component for state management; the Search Bar simply calls back these functions. The (application logic orchestrator) parent component passes these filter details (filter-text and is-stock-only) down to the product table as props along with the products. This is very much in-sync with the BL-AL-IScreenEvents-IScreenCommands architecture I've designed for BX mobile applications back in 2012, 6 years ago.
+```
+class FilterableProductTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText: '',
+      inStockOnly: false
+    };
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+  handleFilterTextChange(filterText) {
+    this.setState({
+      filterText: filterText
+    });
+  }
+  handleInStockChange(inStockOnly) {
+    this.setState({
+      inStockOnly: inStockOnly
+    })
+  }
+...
+class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+  handleFilterTextChange(e) {this.props.onFilterTextChange(e.target.value);}
+  handleInStockChange(e) {this.props.onInStockChange(e.target.checked);}
+...
+class ProductTable extends React.Component {
+  render() {
+    const filterText = this.props.filterText;
+    const inStockOnly = this.props.inStockOnly;  
+```
+In Pixabay Finder the AL object is responsible for performing the query. Of course, a BL abstraction would be necessary, but for this simple example AL would do BL tasks.
+An interesting question, who is in charge of opening the Image Details Dialog? Since AL is responsible for all decisions for orchestration, AL would be the most appropriate component to open the image details dialog; this would give the possibility to extend the dialog with a lot more functionality later  without rearchitecting. On the other hand, you (just like Traversy) can regard this dialog as inherent/natural feature/part of the Image List. 
