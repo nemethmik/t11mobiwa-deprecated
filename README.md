@@ -231,3 +231,7 @@ class ProductTable extends React.Component {
 ```
 In Pixabay Finder the AL object is responsible for performing the query. Of course, a BL abstraction would be necessary, but for this simple example AL would do BL tasks.
 An interesting question, who is in charge of opening the Image Details Dialog? Since AL is responsible for all decisions for orchestration, AL would be the most appropriate component to open the image details dialog; this would give the possibility to extend the dialog with a lot more functionality later  without rearchitecting. On the other hand, you (just like Traversy) can regard this dialog as inherent/natural feature/part of the Image List. 
+
+## Pixabay Finder V2 with New TypeScript Startup Project
+A new branch is created: pixabayfinder2 for the new tasks of the sprint. 
+First, I'll recreate and reinitialize the project with **npx create-react-app t11mobiwa --typesxript**, and move the source codes over to this project. Thereafter I'll perform the rearchitecting modifications that I have already planned and designed.
