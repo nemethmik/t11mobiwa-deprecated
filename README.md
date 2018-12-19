@@ -235,3 +235,5 @@ An interesting question, who is in charge of opening the Image Details Dialog? S
 ## Pixabay Finder V2 with New TypeScript Startup Project
 A new branch is created: pixabayfinder2 for the new tasks of the sprint. 
 First, I'll recreate and reinitialize the project with **npx create-react-app t11mobiwa --typesxript**, and move the source codes over to this project. Thereafter I'll perform the rearchitecting modifications that I have already planned and designed.
+
+I've spent more than an hour on combining a clean new project created with npx create-react-app t11mobiwa --typesxript, but it seemed a more work than I had expected; so, I decided to create a totally new project for this demo: https://github.com/nemethmik/t11pixabayfinder.git  
