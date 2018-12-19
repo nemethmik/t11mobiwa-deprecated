@@ -5,7 +5,7 @@ An experimental mobile warehousing solution for SAP B1 using Design1st TDD on Re
 For [TypeScript](https://www.typescriptlang.org/samples/index.html) integration anterribly important feature of React is that its JSX you will have full support for type validation; Vue templates type checking doesn't work at all, which definitely a deal breaker. I hev worked a lot with Flow, but the checking process of Flow is terrby slow. 
 
 Here is a list of guidelines to start with React/TypeScript:
-- [Microsoft TypeScript React Starter with create-react-app my-app --scripts-version=react-scripts-ts](https://github.com/Microsoft/TypeScript-React-Starter)
+- [Microsoft TypeScript React Starter with create-react-app my-app --scripts-version=react-scripts-ts](https://github.com/Microsoft/TypeScript-React-Starter) Despite I was able to use successfully the getting started tutorial of this project -- see my videos, comments and [accompanying repository branch t11mobiwa/gettingstarted on GitHUb](https://github.com/nemethmik/t11mobiwa/tree/gettingstarted) --, as well as react-script-ts to create a TS project, Microsoft/TypeScript-React-Starter is regarded __deprecated__, maybe only by some people, see [Please Archive this Project](https://github.com/Microsoft/TypeScript-React-Starter/issues/166#issuecomment-448377712). Facebook's Create React App project has direct support for [initializing a project with TypeScript](https://github.com/facebook/create-react-app/pull/5550), and the only thing to do is to use **npx create-react-app my-app --typescript** 
 - [Best Practices for Using TypeScript with React by Christopher Diggins (Clemex)](https://medium.freecodecamp.org/effective-use-of-typescript-with-react-3a1389b6072a) - This was a migration project from JavaScript, so some of their recommendations may not be applicable for a Design-1st TypeScript project. They have published a template project on GitHub, too; see below.
 - [A Template for TypeScript Projects using React and Redux by by Christopher Diggins (Clemex)](https://github.com/Clemex/typescript-react-template) Unfortunately, this template project doesn't compile, so I had no chance to experiment with it. The issue (including me) has been reported on GitHub by multiple users. 
 - [React & Redux in TypeScript - Static Typing Guide by Piotr Witek](https://github.com/piotrwitek/react-redux-typescript-guide) This is quite actively maintained project
@@ -17,11 +17,11 @@ Here is a list of guidelines to start with React/TypeScript:
 - [Getting Started With React, TypeScript MobX, and Webpack 4](https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030) MobX is said to be written in TypeScript.
 
 ## Installation
-- npx create-react-app t11mobiwa --scripts-version=**react-scripts-ts**
+- **npx create-react-app t11mobiwa --typescript** 
+  - npx create-react-app t11mobiwa --scripts-version=react-scripts-ts is regarded as deprecated. Actuall, both --typescript and --scripts-version=react-scripts-ts do (nearly) exactly the same thing, at lreast from the perspective of the source code components relevant to the GitHUb repository.
 - cd t11mobiwa && npm start
 
-Create React App with React Scripts TS created a project initialized for TS, and unlike Vue/TS it compiled cleanly. Instead of js/jsx, tsx files were created along with a gigantic README, which I renamed to README.react-scripts.md
-
+Create React App with React Scripts TS created a project initialized for TS, and unlike Vue/TS it compiled cleanly. Instead of js/jsx, tsx files were created. The deprecated react-scripts-ts would create a gigantic README, which I renamed to README.react-scripts.md. 
 ```
 c:\Users\nemet\tiva11\t11mobiwa>npm start
 > t11mobiwa@0.1.0 start c:\Users\nemet\tiva11\t11mobiwa
