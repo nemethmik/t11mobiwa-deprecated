@@ -237,3 +237,7 @@ A new branch is created: pixabayfinder2 for the new tasks of the sprint.
 First, I'll recreate and reinitialize the project with **npx create-react-app t11mobiwa --typesxript**, and move the source codes over to this project. Thereafter I'll perform the rearchitecting modifications that I have already planned and designed.
 
 I've spent more than an hour on combining a clean new project created with npx create-react-app t11mobiwa --typesxript, but it seemed a more work than I had expected; so, I decided to create a totally new project for this demo: https://github.com/nemethmik/t11pixabayfinder.git  
+
+## Branch renamed to microsofttypescriptreactstarter
+This branch is closed now, not deleted, just closed, since I'll reinitialize the master branch with the CRA built-in typescript support without TSLint. For the Improved version of Pixabay I have created a completely new project with a dedicated 11-episode video series [Design1st Business Applications with TypeScript, React, Material UI](https://www.youtube.com/playlist?list=PLeLsYxj1gjvHO2cU1IOX8a4iri8b9HPOd)
+I'll copy some parts of this project into the master project.
