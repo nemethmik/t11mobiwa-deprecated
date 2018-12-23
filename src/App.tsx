@@ -12,9 +12,9 @@ export class App extends React.Component {
     return (
       <>
       {/*<Button variant="contained" color="primary">Hello T11 Mobile Warehouse</Button>*/}
-      {/*<PrimaryAppBar title="T11 MobiWa" processBar={true}/>*/}
+      <PrimaryAppBar title="T11 MobiWa" processBar={true}/>
       {/*<ClemexApp/>*/}
-      <PixabayImageFinder/>
+      {/*<PixabayImageFinder/>*/}
       </>
     )
   }
